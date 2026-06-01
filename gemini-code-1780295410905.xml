@@ -1,83 +1,44 @@
-<mxfile host="Electron" modified="2026-06-01T00:00:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
-  <diagram id="signandgo-saas" name="Signandgo SaaS SSO">
-    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        
-        <mxCell id="user" value="Navigateur&#xa;Utilisateur" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=40;" vertex="1" parent="1">
-          <mxGeometry x="80" y="40" width="100" height="680" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="saas" value="SaaS Cible&#xa;(ex: Salesforce)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=40;" vertex="1" parent="1">
-          <mxGeometry x="320" y="40" width="120" height="680" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="sso_domain" value="Sign&amp;go IdP&#xa;(sso.votreentreprise.com)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=40;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
-          <mxGeometry x="560" y="40" width="180" height="680" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="directory" value="Annuaire Interne&#xa;(Active Directory)" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;size=40;" vertex="1" parent="1">
-          <mxGeometry x="840" y="40" width="130" height="680" as="geometry" />
-        </mxCell>
-
-        <mxCell id="msg1" value="1. Accès URL du service SaaS" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="user" target="saas">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="130" y="120" as="sourcePoint" /><mxPoint x="370" y="120" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg2" value="2. Identification origine &amp; requête SAML/OIDC" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="saas" target="saas">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="390" y="140" as="sourcePoint" /><mxPoint x="410" y="170" as="targetPoint" /><Array points="<value x=\"410\" y=\"140\"/><value x=\"410\" y=\"170\"/>" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg3" value="3. Redirection du navigateur vers le Domaine Perso" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;" edge="1" parent="1" source="saas" target="user">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="370" y="200" as="sourcePoint" /><mxPoint x="130" y="200" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg4" value="4. Analyse cookies / IP" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sso_domain" target="sso_domain">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="660" y="220" as="sourcePoint" /><mxPoint x="680" y="250" as="targetPoint" /><Array points="<value x=\"680\" y=\"220\"/><value x=\"680\" y=\"250\"/>" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="alt_block" value="alt : CAS A - Pas de session active" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;recursiveResize=0;container=1;collapsible=0;width=200;height=30;" vertex="1" parent="1">
-          <mxGeometry x="40" y="270" width="910" height="220" as="geometry" />
-        </mxCell>
-
-        <mxCell id="msg5" value="5. Affichage de la mire de login personnalisée" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;" edge="1" parent="alt_block">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="610" y="50" as="sourcePoint" /><mxPoint x="90" y="50" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg6" value="6. Saisie des identifiants d'entreprise" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="alt_block">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="90" y="90" as="sourcePoint" /><mxPoint x="610" y="90" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg7" value="7. Vérification des droits (LDAPS)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="alt_block">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="610" y="130" as="sourcePoint" /><mxPoint x="890" y="130" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg8" value="8. Retour d'authentification OK" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;" edge="1" parent="alt_block">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="890" y="170" as="sourcePoint" /><mxPoint x="610" y="170" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg9" value="9. Génération du jeton signé (Assertion SAML / ID Token)" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="sso_domain" target="sso_domain">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="660" y="510" as="sourcePoint" /><mxPoint x="680" y="540" as="targetPoint" /><Array points="<value x=\"680\" y=\"510\"/><value x=\"680\" y=\"540\"/>" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg10" value="10. Transmission du jeton signé via le navigateur" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;" edge="1" parent="1" source="sso_domain" target="user">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="650" y="570" as="sourcePoint" /><mxPoint x="130" y="570" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg11" value="11. POST du jeton d'authentification" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;" edge="1" parent="1" source="user" target="saas">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="130" y="610" as="sourcePoint" /><mxPoint x="370" y="610" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg12" value="12. Vérification via la clé publique du domaine SSO" style="html=1;verticalAlign=bottom;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;" edge="1" parent="1" source="saas" target="saas">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="390" y="630" as="sourcePoint" /><mxPoint x="410" y="660" as="targetPoint" /><Array points="<value x=\"410\" y=\"630\"/><value x=\"410\" y=\"660\"/>" /></mxGeometry>
-        </mxCell>
-
-        <mxCell id="msg13" value="13. Session active : Accès accordé au SaaS cible" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;rounded=0;" edge="1" parent="1" source="saas" target="user">
-          <mxGeometry relative="1" as="geometry"><mxPoint x="370" y="690" as="sourcePoint" /><mxPoint x="130" y="690" as="targetPoint" /></mxGeometry>
-        </mxCell>
-
-      </root>
-    </mxGraphModel>
-  </diagram>
-</mxfile>
+Navigateur           Service SaaS Cible           Domaine Personnalisé           Annuaire d'Entreprise
+ Utilisateur         (ex: corporate.saas.com)     (sso.votreentreprise.com)       (ex: Active Directory)
+     |                           |                            |                              |
+     |-- 1. Accès URL SaaS ----->|                            |                              |
+     |                            |                            |                              |
+     |                            |-- 2. Identifie l'origine --|                              |
+     |                            |   & génère la requête      |                              |
+     |                            |   SAML / OIDC              |                              |
+     |                            |                            |                              |
+     |<-- 3. Redirection du navigateur vers le Domaine Perso --|                              |
+     |   (HTTPS://SSO.VOTREENTREPRISE.COM/...)                 |                              |
+     |                           |                            |                              |
+     |================== ANALYSE DE LA SESSION PAR SIGN&GO ==================|               |
+     |                           |                            |                              |
+     |                           |                            |-- 4. Analyse les cookies      |
+     |                           |                            |   et l'IP du client          |
+     |                           |                            |                              |
+     |   [CAS A : PAS DE SESSION ACTIVE - AUTHENTIFICATION REQUISE]          |               |
+     |                           |                            |                              |
+     |<-- 5. Affiche la mire de login personnalisée ----------|                              |
+     |-- 6. Saisie Login/MDP --->|                            |                              |
+     |                           |                            |-- 7. Requête de ----------- >|
+     |                           |                            |   vérification (LDAPS/Kerberos)
+     |                           |                            |<-- 8. Identifiants VALIDES --|
+     |                           |                            |                              |
+     |   [CAS B : SESSION DÉJÀ ACTIVE - TRANSPARENT POUR L'UTILISATEUR]      |               |
+     |                           |                            |                              |
+     |   (Le jeton de session est détecté sur sso.votreentreprise.com,       |               |
+     |    Sign&go passe directement à la génération du token)                 |               |
+     |                           |                            |                              |
+     |=======================================================================|               |
+     |                           |                            |                              |
+     |                           |                            |-- 9. Génère le jeton signé   |
+     |                           |                            |   (Assertion SAML / ID Token)|
+     |                           |                            |                              |
+     |<-- 10. Transmet le jeton signé (via le navigateur) ----|                              |
+     |                           |                            |                              |
+     |-- 11. POST du jeton ----->|                            |                              |
+     |                           |-- 12. Vérifie la signature |                              |
+     |                           |   via la clé publique du   |                              |
+     |                           |   domaine personnalisé     |                              |
+     |                           |                            |                              |
+     |<-- 13. Session ouverte <--|                            |                              |
+     |    sur le SaaS cible      |                            |                              |
