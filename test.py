@@ -51,13 +51,17 @@ session_path = None
 
 for profile in os.listdir(firefox_base):
     profile_path = os.path.join(firefox_base, profile)
+    if not os.path.isdir(profile_path):  # ← ignore si c'est pas un dossier
+        continue
     print(f"\nProfil : {profile}")
     for f in os.listdir(profile_path):
+        full_path = os.path.join(profile_path, f)
+        if not os.path.isfile(full_path):  # ← ignore les sous-dossiers
+            continue
         if "session" in f.lower() or "lz4" in f.lower():
             print(f"  -> {f}")
-            # Prend le premier sessionstore
             if session_path is None and "sessionstore" in f.lower():
-                session_path = os.path.join(profile_path, f)
+                session_path = full_path
 
 # ─── Lecture et affichage des cookies ──────────────────────────────────────
 
