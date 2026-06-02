@@ -42,7 +42,7 @@ def decompress_mozlz4(path):
         compressed_data = f.read()
     return lz4_block_decompress(compressed_data, uncompressed_size)
 
-# ─── Recherche du profil Firefox ───────────────────────────────────────────
+# ─── Recherche dans profil + backup ────────────────────────────────────────
 
 firefox_base = os.path.expandvars(r"%APPDATA%\Mozilla\Firefox\Profiles")
 
@@ -51,22 +51,30 @@ session_path = None
 
 for profile in os.listdir(firefox_base):
     profile_path = os.path.join(firefox_base, profile)
-    if not os.path.isdir(profile_path):  # ← ignore si c'est pas un dossier
+    if not os.path.isdir(profile_path):
         continue
     print(f"\nProfil : {profile}")
-    for f in os.listdir(profile_path):
-        full_path = os.path.join(profile_path, f)
-        if not os.path.isfile(full_path):  # ← ignore les sous-dossiers
-            continue
-        if "session" in f.lower() or "lz4" in f.lower():
-            print(f"  -> {f}")
-            if session_path is None and "sessionstore" in f.lower():
-                session_path = full_path
+
+    # Dossiers à scanner : racine du profil + sessionstore-backups
+    scan_dirs = [profile_path]
+    backup_dir = os.path.join(profile_path, "sessionstore-backups")
+    if os.path.isdir(backup_dir):
+        scan_dirs.append(backup_dir)
+
+    for scan_dir in scan_dirs:
+        for f in os.listdir(scan_dir):
+            full_path = os.path.join(scan_dir, f)
+            if not os.path.isfile(full_path):
+                continue
+            if "session" in f.lower() or "lz4" in f.lower():
+                print(f"  -> {full_path}")
+                if session_path is None and f.lower().endswith(".jsonlz4"):
+                    session_path = full_path
 
 # ─── Lecture et affichage des cookies ──────────────────────────────────────
 
 if not session_path:
-    print("\nAucun sessionstore trouvé — Firefox est peut-être fermé ou crashé.")
+    print("\nAucun sessionstore trouvé.")
     exit()
 
 print(f"\nUtilise : {session_path}")
