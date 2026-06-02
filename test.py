@@ -154,4 +154,46 @@ def decrypt_cookie(enc, master_key):
     return result.decode("utf-8", errors="replace")
 
 
-# ── Lecture de tous les cookies ────────────────────────────────────────
+# ── Lecture de tous les cookies ───────────────────────────────────────────────
+
+def get_all_chrome_cookies():
+    base             = os.path.expandvars(r"%LOCALAPPDATA%\Google\Chrome\User Data")
+    cookie_path      = os.path.join(base, "Default", "Network", "Cookies")
+    local_state_path = os.path.join(base, "Local State")
+
+    master_key = _get_master_key_windows(local_state_path)
+
+    tmp = tempfile.mktemp(suffix=".db")
+    shutil.copy2(cookie_path, tmp)
+
+    conn = sqlite3.connect(tmp)
+    conn.row_factory = sqlite3.Row
+    rows = conn.execute(
+        "SELECT host_key, name, encrypted_value, path, is_secure FROM cookies"
+    ).fetchall()
+    conn.close()
+    os.remove(tmp)
+
+    cookies = []
+    for row in rows:
+        enc = bytes(row["encrypted_value"])
+        try:
+            value = decrypt_cookie(enc, master_key)
+        except Exception as e:
+            value = f"<erreur: {e}>"
+        cookies.append({
+            "domain": row["host_key"],
+            "name":   row["name"],
+            "value":  value,
+            "path":   row["path"],
+            "secure": bool(row["is_secure"]),
+        })
+
+    return cookies
+
+
+if __name__ == "__main__":
+    cookies = get_all_chrome_cookies()
+    print(f"{len(cookies)} cookies récupérés\n")
+    for c in cookies:
+        print(f"[{c['domain']}] {c['name']} = {c['value']!r}")
